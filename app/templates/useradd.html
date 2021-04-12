@@ -1,0 +1,146 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+{% if form.errors %}
+		{% for error in form.errors.role_info %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+		{% for error in form.errors.spec_info %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+		{% for error in form.errors.name_ %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+		{% for error in form.errors.login_ %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+		{% for error in form.errors.password_ %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+{% endif %}
+
+<script type="text/javascript" charset=utf-8>
+function selrole(){
+        var id_role = $('#role_info option:selected').val();
+		
+		if(id_role == '1') {
+		$('#method_inf').hide();
+		$('#spec_inf').show();
+		$('#group_inf').show();
+   } else if (id_role == '2' || id_role == '3' || id_role == '4' || id_role == '5') {
+      $('#spec_inf').hide();
+		$('#method_inf').show();
+		$('#group_inf').hide();
+   }
+};
+</script>
+
+<div class="span2">
+	
+</div>
+<div class="span6">
+	<form class="form" role="form" method=POST enctype=multipart/form-data action="{{ url_for('useradd') }}">
+		{{ form.hidden_tag() }}
+		<div>
+			<table class="table">
+			<tr>
+				<td class="text-right">
+					<label for="role_info">Выберите уровень доступа:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.role_info(class = "form-control", onchange="javascript:selrole()") }}
+					</div>
+				</td>
+			</tr>
+			<tr id="spec_inf">
+				<td class="text-right">
+					<label for="spec_info">Выберите специальность<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.spec_info(class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr id="method_inf" style="display:none">
+				<td class="text-right">
+					<label for="method_info">Выберите цикловую комиссию<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.method_info(class = "form-control") }}
+					</div>
+				</td>		
+			</tr>
+			<tr>
+				<td class="text-right">
+					<label for="name">ФИО<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.name_(size = 80, class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr id="group_inf">
+				<td class="text-right">
+					<label for="group_info">Группа<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.group_info(class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right">
+					<label for="login_">Логин (для студента - номер студенческого билета)<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.login_(size = 80, class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right">
+					<label for="login_">Пароль<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.password_(size = 80, class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="text-center">
+					<button type="submit" class="btn btn-lg btn-primary">Добавить</button>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</form>
+	<p class="bg-info"><em><span style="color: red;">*</span> - поля обязательные для заполнения</em></p>
+</div>
+
+{% endblock %}

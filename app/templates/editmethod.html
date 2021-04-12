@@ -1,0 +1,48 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+{% if form.errors %}
+		{% for error in form.errors.name %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+{% endif %}
+
+<div class="span2">
+
+</div>
+<div class="span6">
+	<form class="form" role="form" method=POST enctype=multipart/form-data action="">
+		{{ form.hidden_tag() }}
+		<div>
+			<table class="table">
+			<tr>
+				<td class="text-right">
+					<label for="method_name">Название цикловой комиссии<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.name_(class = "form-control") }}
+					</div>
+				</td>		
+			</tr>
+			<tr>
+				<td class="text-right">
+					<a class="btn btn-primary btn-lg" href="{{ url_for('methodlist') }}">Отмена</a>
+				</td>
+				<td class="text-center">
+					<button type="submit" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-save"></span> Применить</button>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</form>
+	<p class="bg-info"><em><span style="color: red;">*</span> - поля обязательные для заполнения</em></p>
+</div>
+{% endblock %}

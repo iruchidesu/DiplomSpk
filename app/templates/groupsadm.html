@@ -1,0 +1,8 @@
+<tr>
+	<td>
+		<a href="{{url_for('groupsadmin', id_groups = group.id)}}">{{group.name}}</a>
+    </td>
+	<td width="40px">
+			<a href="{{url_for('editgroups', groups_id = group.id)}}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> <a href="{{url_for('deletegroups', groups_id = group.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+</tr>

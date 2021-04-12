@@ -1,0 +1,60 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+  
+  <style type="text/css">
+    th {
+     font-size: 12px;
+    }
+  </style>
+			<div class="span2">
+				<!--Sidebar content-->
+
+				<p>Специальности:</p>
+				<table class="table table-hover">
+					{% if role == 2 or role == 3 or role == 4 or role == 5 %}
+					{% for spec in specs %}
+						<tr>
+							<td>
+								<a href="{{ url_for('filespec', spec_id = spec.id) }}">{{spec.name}}</a>
+							</td>
+						</tr>
+					{% endfor %}
+					{% endif %}
+				</table>
+			</div>
+			<div class="span9">
+				<!--Body content-->
+				<div class="panel panel-info">
+					<div class="panel-heading text-center"><h2>{{ current_spec.name }}</h2></div>
+					<table class="table table-hover">
+					<tr bgcolor="#f5f5f5">
+							<th scope="col">Файл</th>
+							<th scope="col">Описание</th>
+							<th scope="col">Дата загрузки</th>
+						{% if user_id == g.user.id %}
+							<th scope="col">Публичный</th>
+							<th scope="col"></th>
+						{% endif %}
+						{% if role == 3 and user_id != g.user.id %}
+							<th scope="col">Публичный</th>
+							<th scope="col"></th>
+						{% endif %}
+					</tr>
+						{% if role == 2 or role == 3 or role == 4 or role == 5 %}
+						{% for type in tmtype %}
+							{% if type.id_pertain == 2 %}
+							<tr bgcolor="#f5f5f5">
+								<td colspan = "9"><strong><small>{{type.name}}</small></strong></td>
+							</tr>
+							{% endif %}
+							{% include 'filespreplistspec.html' %}
+						{% endfor %}
+						{% endif %}
+					</table>
+				</div>
+			</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+		{% for file in files %}
+			{% if file.files.id_user == g.user.id and file.files.id_tmtypes == type.id and file.specid == spec.id and file.files.id_pertain != 1 and file.files.id_discip == disc.id %}
+				<!-- Мои файлы -->
+				<tr> 
+					<td style="word-wrap: break-word;">
+						<a href="{{url_for('uploaded_file', file_id = file.files.id, filename = file.files.name)}}">
+							<span class="glyphicon glyphicon-file"></span> {{file.files.name}}</a>
+					</td>
+					<td>
+						<span>{{file.discipname}}</span>
+					</td>
+					<td>
+						<span>{{file.files.info}}</span>
+					</td>
+					<td>
+						<span>{{file.files.eduYear}}</span>
+					</td>
+					<td>
+						<span style="color: gray; font-size: 10px;">{{momentjs(file.files.timestamp).format('LLL')}}</span>
+					</td>
+					<td>
+						<span>{{file.files.role_file.name}}</span>
+					</td>
+					<td>
+						{% if file.files.public == 1 %}
+							<span>Да</span>
+						{% elif file.files.public == 0 %}
+							<span>Нет</span>
+						{% endif %}
+					</td>
+					<td>
+						{% if file.files.accept == 1 %}
+							<span>Да</span>
+						{% elif file.files.accept == 0 %}
+							<span>Нет</span>
+						{% endif %}
+					</td>
+					<td width="40px">
+						<a href="{{url_for('editfiles', file_id = file.files.id)}}">
+							<img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a>
+						<a href="{{url_for('delete', file_id = file.files.id)}}">
+							<img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+					</td>
+				</tr>
+			{% elif file.files.public == 1 and (role == 2 or role == 4 or role == 5) and file.files.id_tmtypes == type.id and file.specid == spec.id and file.files.id_pertain != 1 and file.files.accept == 1 and file.files.id_discip == disc.id %}
+			<!-- Не мои файлы -->
+				<tr>
+					<td style="word-wrap: break-word;">
+					{% if file.files.id_role == 1 or file.files.id_user == g.user.id or file.methodid == g.user.id_method or role==5 %}
+						<a href="{{url_for('uploaded_file', file_id = file.files.id, filename = file.files.name)}}">
+							<span class="glyphicon glyphicon-file"></span> {{file.files.name}}</a>
+					{% else %}
+						<span class="glyphicon glyphicon-lock"></span> {{file.files.name}}
+					{% endif %}
+					</td>
+					<td>
+						<span>{{file.discipname}}</span>
+					</td>
+					<td>
+						<span>{{file.files.info}}</span>
+					</td>
+					<td>
+						<span>{{file.files.eduYear}}</span>
+					</td>
+					<td>
+						<span style="color: gray; font-size: 10px;">{{momentjs(file.files.timestamp).format('LLL')}}</span>
+					</td>
+					<td>
+							<span>{{file.files.role_file.name}}</span>
+					</td>
+				</tr>
+			{% elif role == 3 and file.files.id_user != g.user.id and file.files.id_tmtypes == type.id and file.specid == spec.id and file.files.id_pertain != 1 and file.files.accept == 1 and file.files.public == 1 and file.files.id_discip == disc.id %}
+			<!-- для админа -->
+				<tr>
+					<td style="word-wrap: break-word;">
+						<a href="{{url_for('uploaded_file', file_id = file.files.id, filename = file.files.name)}}"><span class="glyphicon glyphicon-file"></span> {{file.files.name}}</a>
+					</td>
+					<td>
+						<span>{{file.discipname}}</span>
+					</td>
+					<td>
+						<span>{{file.files.info}}</span>
+					</td>
+					<td>
+						<span>{{file.files.eduYear}}</span>
+					</td>
+					<td>
+						<span style="color: gray; font-size: 10px;">{{momentjs(file.files.timestamp).format('LLL')}}</span>
+					</td>
+					<td>
+							<span>{{file.files.role_file.name}}</span>
+					</td>
+					<td>
+						{% if file.files.public == 1 %}
+							<span>Да</span>
+						{% elif file.files.public == 0 %}
+							<span>Нет</span>
+						{% endif %}
+					</td>
+					<td width="40px">
+						<a href="{{url_for('delete', file_id = file.files.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+					</td>
+				</tr>
+			{% endif %}
+		{% endfor %}

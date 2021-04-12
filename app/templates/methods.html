@@ -1,0 +1,8 @@
+<tr>
+	<td>
+		<a href="{{ url_for('methodsadmin', method_id = method.id) }}">{{method.name}}</a>
+	</td>
+	<td width="40px">
+		<a href="{{ url_for('editmethod', method_id = method.id) }}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> <a href="{{ url_for('deletemethod', method_id = method.id) }}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+</tr>

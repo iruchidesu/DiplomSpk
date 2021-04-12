@@ -1,0 +1,21 @@
+		{% for file in files %}
+				<tr> 
+					<td style="word-wrap: break-word;">
+						<a href="{{url_for('uploaded_file', file_id = file.id, filename = file.name)}}"><span class="glyphicon glyphicon-file"></span> {{file.name}}</a>
+					</td>
+					<td>
+						<span>{{file.info}}</span>
+					</td>
+					<td>
+						<span style="color: gray; font-size: 10px;">{{momentjs(file.timestamp).format('LLL')}}</span>
+					</td>
+					<td width="40px">
+						{% if role == 3 %}
+							<a href="{{url_for('editfiles', file_id = file.id)}}">
+								<img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a>
+						<a href="{{url_for('deletep', file_id = file.id)}}">
+							<img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+						{% endif %}
+					</td>
+				</tr>
+		{% endfor %}

@@ -1,0 +1,26 @@
+<tr>
+	<td>
+		<a href="{{url_for('uploaded_file', file_id = file.id, filename = file.name)}}"><span class="glyphicon glyphicon-file"></span> {{file.name}}</a>
+    </td>
+	<td>
+		<span>{{file.file_tmtypes.name}}</span>
+	</td>
+	<td>
+		<span>{{momentjs(file.timestamp).format('LLL')}}</span>
+	</td>
+	<td>
+		<span>{{file.info}}</span>
+	</td>
+	<td>
+		<span>{{file.eduYear}}</span>
+	</td>
+	<td>
+		<span>{{file.role_file.name}}</span>
+	</td>
+	<td>
+		<span>{{file.user_file.name}}</span>
+	</td>
+	<td width="20px">
+			<a href="{{url_for('delete', file_id = file.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+</tr>

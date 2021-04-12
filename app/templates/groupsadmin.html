@@ -1,0 +1,32 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+			<div class="span2">
+				<!--Sidebar content-->
+				<p>Группы:</p>
+				<table class="table table-hover">
+					{% for group in groupsadm %}
+						{% include 'groupsusersadm.html' %}
+					{% endfor %}
+				</table>
+			</div>
+			<div class="span8">
+				<!--Body content-->
+				<a class="btn btn-primary" href="{{url_for('specgroupsadmin', id_spec = id_spec_)}}">Вернуться к списку групп</a>
+				<h2>{{cur_groups}}</h2>
+				<table class="table table-hover">
+					<tr>
+						<th scope="col">ФИО</th>
+						<th scope="col">Специальность</th>
+						<th scope="col"></th>
+					</tr>
+					{% for user in usersadm %}
+						{% include 'listusersadm.html' %}
+					{% endfor %}
+				</table>
+			</div>
+{% endblock %}

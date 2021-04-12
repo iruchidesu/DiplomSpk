@@ -1,0 +1,181 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+  
+  <style type="text/css">
+    th {
+     font-size: 12px;
+    }
+  </style>
+  
+    <script type="text/javascript" charset=utf-8>
+    window.onload = sel_;
+    moment.locale('ru');
+    function sel_(){
+	    $('#myTab li[id="{{user_id}}"]').tab('show')
+    };
+    $(document).ready(function(){
+        spec_get();
+        discip_get();
+        file_get();
+    });
+    function spec_get(){
+        var user_id = {{ user_id }}
+        $('#content_files').append('<div class=\"tab-pane active\" id=\"content'+ user_id +'\"></div>');
+        $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/specnew",
+            contentType: "application/json; charset=utf-8",
+            data: { user_info: user_id },
+            async: false,
+            success: function(data) {
+                $.each( data, function(i) {
+                $('#content{{ user_id }}').append('<div class=\"panel panel-info\" id=\"'+data[i].specid+'\"></div>');
+                $('#'+data[i].specid+'').append('<div class=\"panel-heading text-center\"><h2>'+data[i].spec_name+'</h2></div>');
+                });
+            }
+        });
+    };
+    function discip_get(){
+        var user_id = {{ user_id }}
+        $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/discipnew",
+            contentType: "application/json; charset=utf-8",
+            data: { user_info: user_id },
+            async: false,
+            success: function(data) {
+                $.each( data, function(i) {
+                var sp = data[i].disc_id;
+                $('#'+data[i].specid+'').append('<h4 class=\"text-center\">'+data[i].discip_name+'</h4>');
+                $('#'+data[i].specid+'').append('<table class=\"table table-hover\" id=\"table'+data[i].disc_id+'\"> \
+                                                 <tr bgcolor=\"#f5f5f5\"><th scope=\"col\">Файл</th> \
+                                                 <th scope=\"col\">Предмет</th><th scope=\"col\">Описание</th> \
+                                                 <th scope=\"col\">Курс</th><th scope=\"col\">Дата загрузки</th> \
+                                                 <th scope=\"col\">Доступ</th> \
+                                                 {% if user_id == g.user.id %} \
+                                                 <th scope="col">Публичный</th><th scope=\"col\">Утвержден</th> \
+                                                 <th scope=\"col\"></th> \
+                                                 {% endif %} \
+                                                 {% if role == 3 and user_id != g.user.id %} \
+                                                 <th scope=\"col\">Публичный</th><th scope=\"col\"></th> \
+                                                 {% endif %}</tr>');
+                $.ajax({
+                    type: "GET",
+                    url: $SCRIPT_ROOT + "/tmtypenew",
+                    contentType: "application/json; charset=utf-8",
+                    data: { user_info: user_id },
+                    async: false,
+                    success: function(data) {
+                    $.each( data, function(i) {
+                        var tm = data[i].tmtypeid;
+                        $('#table'+sp+'').append('<tr bgcolor=\"#f5f5f5\" id=\"tr'+tm+'disc'+sp+'\"> \
+                                                  <td colspan=\"9\"><strong><small>'+data[i].type+'</small></strong></td> \
+                                                  </tr>');
+                    });
+                    }
+                });
+                $('#table'+data[i].disc_id+'').append('</table>');
+                });
+            }
+        });
+    };
+    function file_get(){
+        $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/filesnew",
+            contentType: "application/json; charset=utf-8",
+            data: {user_info:{{user_id}}},
+            async: false,
+            success: function(data) {
+                $.each( data, function(i) {
+                    if (data[i].file.file_id_user=='{{g.user.id}}'){
+                        $('#tr'+data[i].file.tmtype_id+'disc'+data[i].file.discip_id+'').after('<tr> \
+                                         <td style=\"word-wrap: break-word;\"> \
+                                         <a href=\"{{ request.script_root }}/uploads/'+data[i].file_id+'/'+data[i].file.file_name+'\"> \
+                                         <span class=\"glyphicon glyphicon-file\"></span>'+data[i].file.file_name+'</a> \
+                                         </td><td><span>'+data[i].file.discip_name+'</span></td> \
+                                         <td><span>'+data[i].file.files_info+'</span></td> \
+                                         <td><span>'+data[i].file.edu_Year+'</span></td> \
+                                         <td><span style="color: gray; font-size: 10px;"> \
+                                         '+moment(data[i].file.timestamp).format('LLL')+'</span></td> \
+                                         <td><span>'+data[i].file.role_file+'</span></td> \
+                                         <td id=\"public'+data[i].file_id+'\"></td> \
+                                         <td id=\"accept'+data[i].file_id+'\"></td> \
+                                         <td width="40px"><a href=\"{{ request.script_root }}/editfiles/'+data[i].file_id+'\"> \
+                                         <img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> \
+                                         <a href=\"{{ request.script_root }}/delete/'+data[i].file_id+'\"> \
+                                         <img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a></td> \
+                                         </tr>');
+                        if (data[i].file.file_public=='1'){
+                            $('#public'+data[i].file_id+'').append('<span>Да</span>');
+                        } else {$('#public'+data[i].file_id+'').append('<span>Нет</span>');
+                        };
+                        if (data[i].file.file_accept=='1'){
+                            $('#accept'+data[i].file_id+'').append('<span>Да</span>');
+                        } else {$('#accept'+data[i].file_id+'').append('<span>Нет</span>');
+                        };
+                    } else if ({{role}}=='3' && data[i].file.file_id_user!={{g.user.id}} && data[i].file.file_public=='1' && data[i].file.file_accept=='1') {
+                        $('#tr'+data[i].file.tmtype_id+'disc'+data[i].file.discip_id+'').after('<tr> \
+                                    <td style=\"word-wrap: break-word;\"> \
+                                    <a href=\"{{ request.script_root }}/uploads/'+data[i].file_id+'/'+data[i].file.file_name+'\"> \
+                                    <span class=\"glyphicon glyphicon-file\"></span>'+data[i].file.file_name+'</a></td> \
+                                    <td><span>'+data[i].file.discip_name+'</span></td> \
+                                    <td><span>'+data[i].file.files_info+'</span></td> \
+                                    <td><span>'+data[i].file.edu_Year+'</span></td> \
+                                    <td><span style="color: gray; font-size: 10px;"> \
+                                    '+moment(data[i].file.timestamp).format('LLL')+'</span></td> \
+                                    <td><span>'+data[i].file.role_file+'</span></td> \
+                                    <td id=\"public'+data[i].file_id+'\"></td> \
+                                    <td width="40px"><a href=\"{{ request.script_root }}/delete/'+data[i].file_id+'\"> \
+                                    <img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a></td> \
+                                    </tr>');
+                        if (data[i].file.file_public=='1'){
+                            $('#public'+data[i].file_id+'').append('<span>Да</span>');
+                        } else {$('#public'+data[i].file_id+'').append('<span>Нет</span>');
+                        };
+                    } else if (data[i].file.file_public=='1' && data[i].file.file_accept=='1' && (data[i].file.role_file_id=='2' || data[i].file.role_file_id=='4' || data[i].file.role_file_id=='5')) {
+                        $('#tr'+data[i].file.tmtype_id+'disc'+data[i].file.discip_id+'').after('<tr> \
+                                    <td style=\"word-wrap: break-word;\"> \
+                                    <a href=\"{{ request.script_root }}/uploads/'+data[i].file_id+'/'+data[i].file.file_name+'\"> \
+                                    <span class=\"glyphicon glyphicon-file\"></span>'+data[i].file.file_name+'</a></td> \
+                                    <td><span>'+data[i].file.discip_name+'</span></td> \
+                                    <td><span>'+data[i].file.files_info+'</span></td> \
+                                    <td><span>'+data[i].file.edu_Year+'</span></td> \
+                                    <td><span style="color: gray; font-size: 10px;"> \
+                                    '+moment(data[i].file.timestamp).format('LLL')+'</span></td> \
+                                    <td><span>'+data[i].file.role_file+'</span></td> \
+                                    </tr>');
+                    };
+                });
+            }
+        });
+    };
+    </script>
+
+    <div class="span2">
+        <!--Sidebar content-->
+
+        <p>Преподаватели:</p>
+        <ul class="nav nav-pills nav-stacked" id="myTab">
+            {% if role == 2 or role == 3 or role == 4 or role == 5 %}
+
+            <li class="active" onclick="javascript:sel()" id="{{g.user.id}}">
+                <a href="{{url_for('filesprep', user_info = g.user.id)}}" id="{{g.user.id}}" name="user_info">Мои файлы</a>
+            </li>
+
+            {% for user in users %}
+                {% include 'usersfiles.html' %}
+            {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    <div class="span9">
+        <div class="tab-content" id="content_files">
+            <!--Body content-->
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+		{% for file in files %}
+			{% if file.files.id_tmtypes == type.id %}
+				<tr> 
+					<td style="word-wrap: break-word;">
+						<a href="{{url_for('uploaded_file', file_id = file.files.id, filename = file.files.name)}}"><span class="glyphicon glyphicon-file"></span> {{file.files.name}}</a>
+					</td>
+					<td>
+						<span>{{file.files.user_file.name}}</span>
+					</td>
+					<td>
+						<span>{{file.specname}}</span>
+					</td>
+					<td>
+					{% if file.files.id_pertain == 3 %}
+						<span>{{file.discipname}}</span>
+					{% endif %}
+					</td>
+					<td>
+						<span>{{file.files.info}}</span>
+					</td>
+					<td>
+						<span>{{file.files.eduYear}}</span>
+					</td>
+					<td>
+						<span style="color: gray; font-size: 10px;">{{momentjs(file.files.timestamp).format('LLL')}}</span>
+					</td>
+					<td>
+						<span>{{file.files.role_file.name}}</span>
+					</td>
+					<td class="text-right">
+						<a class="btn btn-primary" href="{{ url_for('accept', file_id = file.files.id) }}">Утвердить</a>
+					</td>
+				</tr>
+			{% endif %}
+		{% endfor %}

@@ -1,0 +1,37 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+			<div class="span2">
+				<!--Sidebar content-->
+				<p>Предметы:</p>
+				<table class="table table-hover">
+					{% for discip in discipadm %}
+						{% include 'discipfilesadm.html' %}
+					{% endfor %}
+				</table>
+			</div>
+			<div class="span8">
+				<!--Body content-->
+				<a class="btn btn-primary" href="{{url_for('specsadmin', id_spec = id_spec_)}}">Вернуться к списку специальностей</a>
+				<h2>{{cur_disc}}</h2>
+				<table class="table table-hover">
+					<tr>
+						<th scope="col">Файл</th>
+						<th scope="col">Тип файла</th>
+						<th scope="col">Дата загрузки</th>
+						<th scope="col">Описание</th>
+						<th scope="col">Курс</th>
+						<th scope="col">Уровень доступа</th>
+						<th scope="col">Загрузил</th>
+						<th scope="col"></th>
+					</tr>
+					{% for file in filesadm %}
+						{% include 'listfilesadm.html' %}
+					{% endfor %}
+				</table>
+			</div>
+{% endblock %}

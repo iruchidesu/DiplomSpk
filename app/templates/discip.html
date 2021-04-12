@@ -1,0 +1,10 @@
+﻿<tr>
+	<td>
+		<a href="{{url_for('discips', id_discip = discip.discip.id)}}">{{discip.discip.name}} ({{discip.cnt}})</a> 
+    </td>
+	{% if role == 2 or role == 4 %}
+	<td>
+		<span style="color: gray; font-size: 12px;">{{discip.spec_name}} </span>
+    </td>
+	{% endif %}
+</tr>

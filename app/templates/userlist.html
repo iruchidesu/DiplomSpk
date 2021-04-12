@@ -1,0 +1,38 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+			<div class="span2">
+				<!--Sidebar content-->
+			</div>
+			<div class="span7">
+				<!--Body content-->
+				<h1>Список пользователей</h1>
+				<h2>Преподаватели</h2>
+			<table class="table table-hover">
+				<tr>
+					<th scope="col">ФИО</th>
+					<th scope="col">Цикловая комиссия</th>
+					<th scope="col"></th>
+				</tr>
+				{% for user in userlist_p %}
+					{% include 'users.html' %}
+				{% endfor %}
+			</table>
+			<h2>Студенты</h2>
+			<table class="table table-hover">
+				<tr>
+					<th scope="col">ФИО</th>
+					<th scope="col">Специальность</th>
+					<th scope="col">Группа</th>
+					<th scope="col"></th>
+				</tr>
+				{% for user in userlist_s %}
+					{% include 'users.html' %}
+				{% endfor %}
+			</table>
+			</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+			
+			<div class="span12">
+				<!--Body content-->
+				<h2>Загруженные файлы</h2>
+				<table class="table table-hover table-striped table-bordered">
+					<tr>
+						<th scope="col">Файл</th>
+						<th scope="col">Предмет</th>
+						<th scope="col">Описание</th>
+						<th scope="col">Курс</th>
+						<th scope="col">Уровень доступа</th>
+						<th scope="col">Загрузил</th>
+						<th scope="col">Дата загрузки</th>
+						<th scope="col">Удалить</th>
+					</tr>
+					{% for file in filesadm %}
+						<tr>
+							<td>
+								<a href="{{url_for('uploaded_file', file_id = file.id, filename = file.name)}}">{{file.name}}</a>
+							</td>
+							<td>
+								<span>{{file.disc_files.name}}</span>
+							</td>
+							<td>
+								<span>{{file.info}}</span>
+							</td>
+							<td>
+								<span>{{file.eduYear}}</span>
+							</td>
+							<td>
+								<span>{{file.role_file.name}}</span>
+							</td>
+							<td>
+								<span>{{file.user_file.name}}</span>
+							</td>
+							<td>
+								<span>{{momentjs(file.timestamp).format('LLL')}}</span>
+							</td>
+							<td width="20px" class="text-center">
+									<a href="{{url_for('delete', file_id = file.id)}}"><img src="/static/img/erase.png" alt="Удалить"></a>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+{% endblock %}

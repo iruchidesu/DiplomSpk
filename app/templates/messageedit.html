@@ -1,0 +1,48 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+{% if form.errors %}
+		{% for error in form.errors.message %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+{% endif %}
+
+<div class="span2">
+	<p>Последнее изменение: {{momentjs(messagetimestamp).format('LLL')}}</p>
+</div>
+<div class="span6">
+	<form class="form" role="form" method=POST enctype=multipart/form-data action="">
+		{{ form.hidden_tag() }}
+		<div>
+			<table class="table">
+			<tr>
+				<td class="text-right">
+					<label for="spec_name">Текст оповещения:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.message(cols = 4, rows = 4, class = "form-control") }}
+					</div>
+				</td>		
+			</tr>
+			<tr>
+				<td class="text-right">
+					
+				</td>
+				<td class="text-center">
+					<button type="submit" class="btn btn-lg btn-primary">Применить</button>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</form>
+	<p class="bg-info"><em>Максимальная длина оповещения 700 знаков<em></p>
+</div>
+{% endblock %}

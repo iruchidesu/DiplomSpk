@@ -1,0 +1,93 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+			
+			<script type="text/javascript">
+			$(function () {
+			var today = new Date();
+			var today1 = new Date();
+			var today2 = new Date();
+			var today3 = new Date();
+			var today4 = new Date();
+			$('#container').highcharts({
+			title: {
+            text: 'Статистика загруженных файлов за 5 дней'
+			},
+			xAxis: {
+			title: {
+					text: 'Дата'
+				},
+				categories: [today4.toLocaleDateString(today4.setSeconds(today4.getSeconds()-86400*4)),today3.toLocaleDateString(today3.setSeconds(today3.getSeconds()-86400*3)),today2.toLocaleDateString(today2.setSeconds(today2.getSeconds()-86400*2)),today1.toLocaleDateString(today1.setSeconds(today1.getSeconds()-86400)),today.toLocaleDateString()]
+			},
+			yAxis: {
+				title: {
+					text: 'Файлы'
+				},
+				tickInterval: 1,
+				min: 0
+			},
+			series: [{
+				name: 'Загружено',
+				data: {{stat}}
+					}, {
+				name: 'Утверждено',
+				data: {{stat_accept}}
+					}]
+				});
+			});
+			</script>
+			
+			<div class="span2">
+				<!--Sidebar content-->
+			</div>
+			<div class="span7">
+				<!--Body content-->
+				{% if role == 1 %}
+				<h2>Добро пожаловать, {{name}}</h2>
+				<p>Пожалуйста, выберите предмет из списка:</p>
+				<table class="table table-hover">
+					{% for discip in follow_discip %}
+						{% include 'discip.html' %}
+					{% endfor %}
+				</table>
+				{% endif %}
+				{% if role == 2 or role == 4 or role == 5 %}
+					<h2>Добро пожаловать, {{name}}</h2>
+					<h3>Сообщение от администрации:</h3>
+					{% for mes in message %}
+						{% if mes.message != '' %}
+						<div>
+							<p class="lead"><small style="color:gray;font-size: 12px;">{{momentjs(mes.timestamp).format('LLL')}}</small> {{mes.message}}</p>
+						</div>
+						{% else %}
+						<div>
+							<p class="lead">Сообщений нет</p>
+						</div>
+						{% endif %}
+					{% endfor %}
+					{% if role == 5 %}
+					<p>
+						<div id="container" style="height: 400px"></div>
+					</p>
+					{% endif %}
+				{% endif %}
+				{% if role == 3 %}
+				<h2>Добро пожаловать, {{name}}</h2>
+				<p>Пожалуйста, выберите действие: </p>
+				<p><strong>Добавление:</strong></p>
+				<ol>
+					<li><a href="{{ url_for('specadd') }}">Добавить специальность</a></li>
+					<li><a href="{{ url_for('groupsadd') }}">Добавить группу</a></li>
+					<li><a href="{{ url_for('methodadd' )}}">Добавить цикловую комиссию</a></li>
+					<li><a href="{{ url_for('useradd') }}">Добавить пользователя</a></li>
+					<li><a href="{{ url_for('discipadd') }}">Добавить предмет</a></li>
+				</ol>
+				<div>
+					<div id="container" style="height: 400px"></div>
+				</div>
+				{% endif %}
+			</div>
+{% endblock %}

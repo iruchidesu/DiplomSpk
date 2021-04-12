@@ -1,0 +1,43 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+			<div class="span2">
+				<!--Sidebar content-->
+
+				<p>Доступные предметы:</p>
+				<table class="table table-hover">
+					{% if role == 1 %}
+					{% for discip in follow_discip %}
+						{% include 'discip.html' %}
+					{% endfor %}
+					{% endif %}
+				</table>
+			</div>
+			<div class="span7">
+				<!--Body content-->
+
+			<table class="table table-hover">
+				<tr>
+					<th scope="col">Файл</th>
+					<th scope="col">Дата создания</th>
+					<th scope="col">Описание</th>
+					{% if role == 2 or role == 4 %}
+					<th scope="col">Курс</th>
+					<th scope="col">Уровень доступа</th>
+					<th scope="col"></th>
+					{% endif %}
+				</tr>
+				{% if role == 1 %}
+				{% for file in files_stud %}
+					{% if file.public == 1 %}
+						{% include 'files.html' %}
+					{% endif %}
+				{% endfor %}
+				{% endif %}
+			</table>
+			</div>
+{% endblock %}

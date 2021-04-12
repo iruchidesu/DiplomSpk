@@ -1,0 +1,30 @@
+<tr>
+	<td>
+		<a href="{{ url_for('profile', userlogin = user.login) }}"><span class="glyphicon glyphicon-user"></span> {{user.name}}</a>
+    </td>
+	<td>
+	{% if user.id_role == 2 or user.id_role == 4 or user.id_role == 5 %}
+		{{user.user_method.name}}
+	{% elif user.id_role == 1 %}
+		{{user.special_stud.name}}
+	{% endif %}
+	</td>
+	{% if user.id_role == 1 %}
+	<td>
+		<span>{{user.user_group.name}}</span>
+	</td>
+	{% elif user.id_role == 2 or user.id_role == 4 or user.id_role == 5 %}
+	<td width="40px">
+		<a href="{{ url_for('edituserp', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> <a href="{{ url_for('deleteuser', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+	{% elif user.id_role == 3 %}
+	<td width="40px">
+		<a href="{{ url_for('edituserp', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> <a href="{{ url_for('deleteuser', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+	{% endif %}
+	{% if user.id_role == 1 %}
+	<td width="40px">
+		<a href="{{ url_for('editusers', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> <a href="{{ url_for('deleteuser', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+	{% endif %}
+</tr>

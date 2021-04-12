@@ -1,0 +1,5 @@
+﻿<tr>
+	<td>
+		<a href="{{url_for('specgroupsadmin', id_spec = spec.id)}}">{{spec.name}}</a> <a href="{{url_for('editspec', spec_id = spec.id)}}"><img src="{{ request.script_root }}/static/img/edit.jpg" width="14px" height="14px" alt="Редактировать"></a> <a href="{{url_for('deletespec', spec_id = spec.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" width="14px" height="14px" alt="Удалить"></a>
+    </td>
+</tr>

@@ -1,0 +1,45 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+{% if form.errors %}
+		{% for error in form.errors.name %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+{% endif %}
+
+<div class="span2">
+	
+</div>
+<div class="span6">
+	<form class="form" role="form" method=POST enctype=multipart/form-data action="{{ url_for('specadd') }}">
+		{{ form.hidden_tag() }}
+		<div>
+			<table class="table">
+			<tr>
+				<td class="text-right">
+					<label for="spec_name">Название специальности<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.name(class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="text-center">
+					<button type="submit" class="btn btn-lg btn-primary">Добавить</button>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</form>
+	<p class="bg-info"><em><span style="color: red;">*</span> - поля обязательные для заполнения</em></p>
+</div>
+{% endblock %}

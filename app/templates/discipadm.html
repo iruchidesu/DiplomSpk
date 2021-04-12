@@ -1,0 +1,11 @@
+<tr>
+	<td>
+		<a href="{{url_for('filesadmin', id_discip = discip.id)}}">{{discip.name}}</a>
+    </td>
+	<td>
+		<span>{{discip.eduYear}}</span>
+	</td>
+	<td width="40px">
+			<a href="{{url_for('editdiscip', discip_id = discip.id)}}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a> <a href="{{url_for('deletediscip', discip_id = discip.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+</tr>

@@ -1,0 +1,24 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+		<div class="span2">
+			<!--Sidebar content-->
+		</div>
+		<div class="span7">
+			<!--Body content-->
+			<h1>Список цикловых комиссий</h1>
+			<table class="table table-hover">
+				<tr>
+					<th scope="col">Название</th>
+					<th scope="col"></th>
+				</tr>
+				{% for method in methodlist %}
+					{% include 'methods.html' %}
+				{% endfor %}
+			</table>
+		</div>
+{% endblock %}

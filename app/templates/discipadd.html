@@ -1,0 +1,77 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+{% if form.errors %}
+		{% for error in form.errors.eduYear_info %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+		{% for error in form.errors.spec_info %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+		{% for error in form.errors.name %}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ error }}
+			</div>
+		{% endfor %}
+{% endif %}
+
+<div class="span2">
+	
+</div>
+<div class="span6">
+	<form class="form" role="form" method=POST enctype=multipart/form-data action="{{ url_for('discipadd') }}">
+		{{ form.hidden_tag() }}
+		<div>
+			<table class="table">
+			<tr>
+				<td class="text-right">
+					<label for="spec_info">Выберите специальность<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.spec_info(class = "form-control") }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right">
+					<label for="discip_name">Название предмета<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						{{ form.name(class = "form-control") }}
+					</div>
+				</td>		
+			</tr>
+			<tr>
+				<td class="text-right">
+					<label for="eduYear_info">Выберите курс<span style="color: red;">*</span>:</label>
+				</td>
+				<td>
+					<div class="form-group">
+						<input id="eduYear_info" max="4" min="1" name="eduYear_info" type="number" class = "form-control">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="text-center">
+					<button type="submit" class="btn btn-lg btn-primary">Добавить</button>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</form>
+	<p class="bg-info"><em><span style="color: red;">*</span> - поля обязательные для заполнения</em></p>
+</div>
+{% endblock %}

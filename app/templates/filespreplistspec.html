@@ -1,0 +1,32 @@
+		{% for file in files %}
+			{% if file.id_pertain == 2 and file.id_tmtypes == type.id and file.accept == 1 %}
+				<tr> 
+					<td style="word-wrap: break-word;">
+						<a href="{{url_for('uploaded_file', file_id = file.id, filename = file.name)}}">
+							<span class="glyphicon glyphicon-file"></span> {{file.name}}</a>
+					</td>
+					<td>
+						<span>{{file.info}}</span>
+					</td>
+					<td>
+						<span style="color: gray; font-size: 10px;">{{momentjs(file.timestamp).format('LLL')}}</span>
+					</td>
+					{% if role == 3 or user_id == g.user.id %}
+					<td>
+						{% if file.public == 1 %}
+							<span>Да</span>
+						{% elif file.public == 0 %}
+							<span>Нет</span>
+						{% endif %}
+					</td>
+					{% endif %}
+					{% if role == 3 or user_id == g.user.id  %}
+					<td width="40px">
+						<a href="{{url_for('editfiles', file_id = file.id)}}">
+							<img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a>
+						<a href="{{url_for('deletes', file_id = file.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+					</td>
+					{% endif %}
+				</tr>
+			{% endif %}
+		{% endfor %}

@@ -1,0 +1,11 @@
+<tr>
+	<td>
+		<a href="{{url_for('profile', userlogin = user.login)}}"><span class="glyphicon glyphicon-user"></span> {{user.name}}</a>
+    </td>
+	<td>
+		<span>{{user.special_stud.name}}</span>
+	</td>
+	<td width="40px">
+			<a href="{{ url_for('editusers', user_id = user.id) }}"><img src="{{ request.script_root }}/static/img/edit.jpg" alt="Редактировать"></a><a href="{{url_for('deleteuser', user_id = user.id)}}"><img src="{{ request.script_root }}/static/img/erase.png" alt="Удалить"></a>
+	</td>
+</tr>

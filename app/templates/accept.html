@@ -1,0 +1,30 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+<div class="span2">
+
+</div>
+<div class="span6">
+	<form class="form" role="form" method=POST action="">
+		{{form.hidden_tag()}}
+		<div>
+			<h3>Вы собираетесь утвердить файл "{{ file.name }}" загруженный "{{file.user_file.name}}".</h3>
+			<h3>Вы уверены?</h3>
+			<table class="table">
+				<tr>
+					<td class="text-center"> 
+						<button type="submit" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-ok"></span> Утвердить</button>	
+					</td>
+					<td class="text-center">
+						<a class="btn btn-primary" href="{{ url_for('acceptfiles') }}">Отмена</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
+{% endblock %}

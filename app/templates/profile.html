@@ -1,0 +1,56 @@
+<!-- расширяет base слой -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'flash.html' %}
+
+			<div class="span2">
+				<!--Sidebar content-->
+					<p><a class="btn btn-primary btn-block active" href="{{url_for('profile', userlogin = g.user.login)}}">Сведения</a></p>
+					<p><a class="btn btn-primary btn-block" href="{{url_for('logout')}}">Выход</a></p>
+			</div>
+			<div class="span5">
+				<!--Body content-->
+				{% if g.user.login != user.login %}
+					{% if role == 3 and (role_user == 2 or role_user == 3 or role_user == 4 or role_user == 5) %}
+						<p><a class="btn btn-primary" href="{{url_for('methodsadmin', method_id = user.id_method)}}">Вернуться к списку пользователей</a></p>
+					{% endif %}
+					{% if role == 3 and role_user == 1 %}
+						<p><a class="btn btn-primary" href="{{url_for('groupsadmin', id_groups = user.id_group)}}">Вернуться к списку пользователей</a></p>
+					{% endif %}
+				{% endif %}
+				<table class="table table-relative">
+				<tr>
+					<td>ФИО:</td>
+					<td>{{ name }}</td>
+				</tr>
+				{% if role_user == 1 %}
+				<tr>
+					<td>Специальность:</td>
+					<td>{{ user.special_stud.name }}</td>
+				</tr>
+				<tr>
+					<td>Группа:</td>
+					<td>{{ user.user_group.name }}</td>
+				</tr>
+				{% endif %}
+				{% if role_user == 2  or role_user == 4 or role_user == 5 %}
+				<tr>
+					<td>Цикловая комиссия:</td>
+					<td>{{ method_name }}</td>
+				</tr>
+				{% endif %}
+				{% if role == 3 %}
+				<tr>
+					<td>Логин:</td>
+					<td>{{ user.login }}</td>
+				</tr>
+				<tr>
+					<td>Роль:</td>
+					<td>{{ user.role_user.name }}</td>
+				</tr>
+				{% endif %}
+				</table>
+			</div>
+{% endblock %}
